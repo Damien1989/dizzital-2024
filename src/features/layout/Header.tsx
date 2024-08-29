@@ -2,6 +2,7 @@ import Image  from "next/image";
 import { LoggedInButton } from "../auth/LoggedInButton";
 import { Layout } from "@/components/layout";
 import { SignInButton } from "../auth/SignInButton";
+import { ModeToggle } from "../themes/ModeToggle";
 
 export const Header = async() => {
     return (
@@ -11,6 +12,7 @@ export const Header = async() => {
             <Image src="/icon.png" width={38} height={38} alt="icon" />
             </div>
             <div>
+                <ModeToggle />
             <LoggedInButton/>
         </div>
         </Layout>
