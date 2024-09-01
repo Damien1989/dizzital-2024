@@ -4,9 +4,9 @@ import { ThemeProvider } from "@/components/Theme-Provider";
 import { Toaster } from "@/components/ui/sonner";
 import { PropsWithChildren } from "react";
 
-export type ProviderProps = PropsWithChildren; 
+export type ProvidersProps = PropsWithChildren; 
 
-export const Providers = (props: ProviderProps) => {
+export const Providers = (props: ProvidersProps) => {
 return (
     <ThemeProvider
             attribute="class"
@@ -16,7 +16,6 @@ return (
           >
           <Toaster />
           {props.children}
-          
           </ThemeProvider>
 );
 };

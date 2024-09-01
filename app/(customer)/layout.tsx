@@ -1,4 +1,4 @@
-import { Header } from '@/features/layout/Header'; // Assure-toi que le chemin est correct
+import { Header } from '@/features/layout/Header';
 
 export default function RouteLayout({ children }) {
     return (
