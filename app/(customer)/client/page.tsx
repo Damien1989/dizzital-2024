@@ -6,4 +6,4 @@ export default async function RoutesPage(Props: PageParams<{}>) {
     <Layout>
     <p>Hello World</p>
     </Layout>
-)};
+)}
