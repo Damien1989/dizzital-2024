@@ -9,9 +9,9 @@ export const Header = async() => {
         <header className="w-full border-b border-border px-4">
         <Layout className="flex items-center gap-4">
             <div className="flex-1">
-            <Image src="/icon.png" width={38} height={38} alt="icon" />
+            <Image src="/icon.png" width={38} height={38} alt="dizzital-logo" />
             </div>
-            <div>
+            <div className="flex items-center gap-4">
                 <ModeToggle />
             <LoggedInButton/>
         </div>
