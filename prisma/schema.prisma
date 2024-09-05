@@ -14,13 +14,22 @@ model User {
   email         String?         @unique
   emailVerified DateTime?
   image         String?
-  Session       Session[]
-  Account       Account?
+  plan          Plan            @default(FREE)
+
+  sessions      Session[]
+  accounts      Account[]
+  products      Product[]
+  
   // Optional for WebAuthn support
   Authenticator Authenticator[]
  
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum Plan {
+  FREE 
+  PREMIUM
 }
  
 model Account {
@@ -66,6 +75,24 @@ model VerificationToken {
  
   @@unique([identifier, token])
 }
+
+model Product {
+  id                String   @id @default(cuid())
+  name              String   
+  noteText          String?
+  informationText   String?
+  reviewText        String?
+  thanksText        String?
+  backgroundColor   String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
+
+  reviews Review[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
  
 // Optional for WebAuthn support
 model Authenticator {
@@ -81,4 +108,27 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
  
   @@id([userId, credentialID])
+}
+
+model Review {
+  id               String   @id @default(cuid())
+  rating           Int   
+  ip               String
+  text             String?
+  audio            String?
+  socialLink       String?
+  socialType       SocialType?
+  name             String?
+  image            String?
+  
+  productId        String
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SocialType {
+  LINKEDIN
+  TWITTER
 }
