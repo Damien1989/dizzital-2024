@@ -1,6 +1,8 @@
-import { signIn } from "@/auth/auth";
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
+import { signInAction } from "./auth.action";
 
 export const SignInButton = () => {
     return (
@@ -9,7 +11,7 @@ export const SignInButton = () => {
         variant="secondary"
         size="sm"
         formAction={async () => {
-            await signIn();
+            await signInAction();
         }}
         className="bg-blue-500 text-white px-4 py-2 rounded"
         >

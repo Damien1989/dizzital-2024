@@ -9,7 +9,7 @@ import { Prisma } from "@prisma/client";
 export default async function RoutePage(props: PageParams<{}>) {
     const user = await requiredCurrentUser();
 
-    const products = await prisma.product.findMany({
+    const products = await Prisma.product.findMany({
         where : {
             userId : user.id,
         },
