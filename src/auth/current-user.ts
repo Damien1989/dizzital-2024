@@ -1,4 +1,4 @@
-import { User } from "@/prisma/client";
+import { User } from "@prisma/client";
 import { baseAuth } from "./auth";
 
 export const currentUser = async () => {
@@ -10,7 +10,7 @@ export const currentUser = async () => {
 
     const user = session.user as User;
 
-    return User;
+    return user;
 }
 
 export const requiredCurrentUser = async () => {
@@ -19,6 +19,6 @@ export const requiredCurrentUser = async () => {
     if(!user) {
         throw new Error("User not found");
     }
-
+    
     return user;
 }
