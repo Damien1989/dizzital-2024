@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { LogIn } from "lucide-react";
-import { signIn } from "next-auth/react";  // Import direct depuis next-auth
+import { signIn } from "next-auth/react";
 
 export const SignInButton = () => {
     return (
