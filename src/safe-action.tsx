@@ -1,5 +1,6 @@
-import { createSafeActionClient } from "next-safe-action";
+import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from "next-safe-action";
 import { currentUser } from "./auth/current-user";
+
 
 class ActionError extends Error {
     constructor(message: string) {
@@ -8,27 +9,15 @@ class ActionError extends Error {
     }
 }
 
-const handleReturnedServerError = (error: Error) => {
+const handleServerError = (error: Error) => {
     if (error instanceof ActionError) {
-        console.error("ActionError", error);
+        console.error("ActionError:", error.message);
         return error.message;
     }
-    return "An unexpected error occurred";
+    
+    return DEFAULT_SERVER_ERROR_MESSAGE;
 };
 
-export const action = createSafeActionClient({
-    handleReturnedServerError: handleReturnedServerError,
-});
-
-export const userAction = createSafeActionClient({
-    handleReturnedServerError: handleReturnedServerError,
-    middleware: async () => {
-        const user = await currentUser();
-
-        if (!user) {
-            throw new ActionError("You must be logged in");
-        }
-
-        return user;
-    },
+export const actionClient = createSafeActionClient({
+    handleServerError,
 });
