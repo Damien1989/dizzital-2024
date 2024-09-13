@@ -37,6 +37,22 @@ export const ProductForm = (props: ProductFormProps) => {
                 >
                     <FormField
                         control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="iphone 15" {...field} />
+                                        </FormControl>
+                                        <FormDescription>
+                                            THe name of the product to review
+                                        </FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                            <FormField
+                        control={form.control}
                         name="backgroundColor"
                         render={({ field }) => (
                             <FormItem>
@@ -44,12 +60,19 @@ export const ProductForm = (props: ProductFormProps) => {
                                 <FormControl>
                                     <Select onValueChange={field.onChange} value={field.value}>
                                         <SelectTrigger>
-                                            <SelectValue placeholder="Select a color" />  {/* Utilisez un seul enfant ici */}
+                                            <SelectValue></SelectValue>
                                         </SelectTrigger>
                                         <SelectContent>
                                             {GRADIENTS_CLASSES.map((gradient) => (
-                                                <SelectItem value={gradient} key={gradient}>
-                                                    <span className={cn(gradient, "w-full h-8 rounded-md")}></span>
+                                                <SelectItem 
+                                                value={gradient} 
+                                                key={gradient}
+                                                className={gradient}
+                                                >
+                                                    <span className={cn(
+                                                        gradient, 
+                                                        "w-full h-8 rounded-md")}
+                                                        ></span>
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
