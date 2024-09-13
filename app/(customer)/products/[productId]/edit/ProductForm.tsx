@@ -9,6 +9,10 @@ import { useZodForm } from "@/components/ui/form";
 import { Select, SelectTrigger, SelectValue, SelectContent } from "@radix-ui/react-select";
 import { SelectItem } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { useMutation } from "@tanstack/react-query";
+import { createProductAction } from "./product.action";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export type ProductFormProps = {
     defaultValues?: ProductType;
@@ -21,6 +25,22 @@ export const ProductForm = (props: ProductFormProps) => {
     });
 
     const isCreate = !Boolean(props.defaultValues);
+    const router = useRouter();
+
+    const mutation = useMutation({
+        mutationFn: async (values: ProductType) => {
+                const { data, serverError } = await createProductAction(values);
+
+                if (serverError || !data) {
+                    toast.error(serverError);
+                    return;
+                }
+
+                toast.success("Product created");
+                router.push(`/products/${data.id}`);
+        },
+    });
+
 
     return (
         <Card>
@@ -34,7 +54,7 @@ export const ProductForm = (props: ProductFormProps) => {
                     className="flex flex-col gap-4"
                     form={form}
                     onSubmit={async (values) => {
-                        console.log(values);
+                        await mutation.mutateAsync(values);
                     }}
                 >
                     <FormField
