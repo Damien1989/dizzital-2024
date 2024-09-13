@@ -32,7 +32,7 @@ export default async function RoutePage(props: PageParams<{}>) {
                         ))}
                 </TableBody>
          </Table>) : (
-            <button className="w-full rounded-md border-2 border-dashed border-primary p-8">
+            <button className="w-full transition-colors hover:bg-accent/40 rounded-md border-2 border-dashed border-primary p-8">
                 create product
             </button>
 )}
