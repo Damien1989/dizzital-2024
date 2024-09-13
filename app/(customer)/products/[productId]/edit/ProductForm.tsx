@@ -45,7 +45,7 @@ export const ProductForm = (props: ProductFormProps) => {
                                     <Input placeholder="iphone 15" {...field} />
                                         </FormControl>
                                         <FormDescription>
-                                            THe name of the product to review
+                                            The name of the product to review
                                         </FormDescription>
                                 <FormMessage />
                             </FormItem>
@@ -56,9 +56,9 @@ export const ProductForm = (props: ProductFormProps) => {
                         name="backgroundColor"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Color</FormLabel>
+                                <FormLabel>Background Color</FormLabel>
                                 <FormControl>
-                                    <Select onValueChange={field.onChange} value={field.value}>
+                                    <Select>
                                         <SelectTrigger>
                                             <SelectValue></SelectValue>
                                         </SelectTrigger>
@@ -67,20 +67,19 @@ export const ProductForm = (props: ProductFormProps) => {
                                                 <SelectItem 
                                                 value={gradient} 
                                                 key={gradient}
-                                                className={gradient}
-                                                >
-                                                    <span className={cn(
-                                                        gradient, 
-                                                        "w-full h-8 rounded-md")}
-                                                        ></span>
+                                                className={gradient}>
+                                                    <div 
+                                                    className={cn(
+                                                    gradient, 
+                                                        "block w-80 h-8 rounded-md flex-1")}
+                                                        >TEST </div>
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
-                                    <Input placeholder="I Phone" {...field} />
                                 </FormControl>
                                 <FormDescription>
-                                    The name of the product to review
+                                    The review page background color
                                 </FormDescription>
                                 <FormMessage />
                             </FormItem>
