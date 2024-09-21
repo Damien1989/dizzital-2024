@@ -10,7 +10,7 @@ export const SignInButton = () => {
             variant="secondary"
             size="sm"
             onClick={async () => {
-                await signIn();  // Appelle signIn directement côté client
+                await signIn();  
             }}
             className="bg-blue-500 text-white px-4 py-2 rounded"
         >

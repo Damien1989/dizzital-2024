@@ -18,9 +18,8 @@ return (
             disableTransitionOnChange
           >
             <QueryClientProvider client={queryClient}/>
-
+            {props.children}
           <Toaster />
-          {props.children}
           </ThemeProvider>
 );
 };
