@@ -15,6 +15,5 @@ export const createProductAction = async (input: typeof ProductSchema['_type'], 
     return product;
 };
 
-
 export const editProductAction = async () => {
 };

@@ -1,8 +1,4 @@
-
-
 import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from "next-safe-action";
-import { currentUser } from "./auth/current-user";
-
 
 class ActionError extends Error {
     constructor(message: string) {
@@ -16,10 +12,10 @@ const handleServerError = (error: Error) => {
         console.error("ActionError:", error.message);
         return error.message;
     }
-    
     return DEFAULT_SERVER_ERROR_MESSAGE;
 };
 
+// Client d'action sécurisé
 export const actionClient = createSafeActionClient({
     handleServerError,
 });
