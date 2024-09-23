@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -29,15 +29,14 @@ export const ProductForm = (props: ProductFormProps) => {
 
     const mutation = useMutation({
         mutationFn: async (values: ProductType) => {
-                const { data, serverError } = await createProductAction(values);
-
-                if (serverError || !data) {
-                    toast.error(serverError);
-                    return;
-                }
-
+            try {
+                const data = await createProductAction(values);  // Utiliser createProductAction avec des valeurs valides
+                if (!data) throw new Error("Product creation failed");  // Vérifier que la réponse est valide
                 toast.success("Product created");
-                router.push(`/products/${data.id}`);
+                router.push(`/products/${data.id}`);  // Rediriger vers le produit créé
+            } catch (error) {
+                toast.error(error instanceof Error ? error.message : "Error creating product");  // Gérer les erreurs
+            }
         },
     });
 
@@ -64,36 +63,39 @@ export const ProductForm = (props: ProductFormProps) => {
                                 <FormLabel>Name</FormLabel>
                                 <FormControl>
                                     <Input placeholder="iphone 15" {...field} />
-                                        </FormControl>
-                                        <FormDescription>
-                                            The name of the product to review
-                                        </FormDescription>
+                                </FormControl>
+                                <FormDescription>
+                                    The name of the product to review
+                                </FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                            <FormField
+                    <FormField
                         control={form.control}
                         name="backgroundColor"
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Background Color</FormLabel>
                                 <FormControl>
-                                    <Select value={field.value} onValueChange={field.onChange}> 
+                                    <Select value={field.value} onValueChange={field.onChange}>
                                         <SelectTrigger>
                                             <SelectValue></SelectValue>
                                         </SelectTrigger>
                                         <SelectContent>
                                             {GRADIENTS_CLASSES.map((gradient) => (
-                                                <SelectItem 
-                                                value={gradient} 
-                                                key={gradient}
-                                                className={gradient}>
-                                                    <div 
-                                                    className={cn(
-                                                    gradient, 
-                                                        "block w-80 h-8 rounded-md flex-1")}
-                                                        >TEST </div>
+                                                <SelectItem
+                                                    value={gradient}
+                                                    key={gradient}
+                                                    className={gradient}>
+                                                    <div
+                                                        className={cn(
+                                                            gradient,
+                                                            "block w-80 h-8 rounded-md flex-1"
+                                                        )}
+                                                    >
+                                                        TEST
+                                                    </div>
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
@@ -107,11 +109,10 @@ export const ProductForm = (props: ProductFormProps) => {
                         )}
                     />
                     <Button>
-                            {isCreate ?  "Create Product" : "Save Product"}
+                        {isCreate ? "Create Product" : "Save Product"}
                     </Button>
                 </Form>
             </CardContent>
         </Card>
     );
 };
-                  
