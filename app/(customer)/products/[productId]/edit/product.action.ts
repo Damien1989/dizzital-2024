@@ -2,8 +2,7 @@ import { actionClient } from "@/safe-action";
 import { ProductSchema } from "./Product.schema";
 import { prisma } from "@/prisma";
 
-
-export const createProductAction = actionClient.define(ProductSchema, async (input, context) => {
+export const createProductAction = async (input: typeof ProductSchema['_type'], context: { user: { id: string } }) => {
     const product = await prisma.product.create({
         data: {
             ...input,
@@ -11,7 +10,8 @@ export const createProductAction = actionClient.define(ProductSchema, async (inp
         },
     });
     return product;
-});
+};
+
 
 export const editProductAction = async () => {
 };

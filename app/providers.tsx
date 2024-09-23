@@ -1,25 +1,27 @@
-"use client"
+"use client";
 
 import { ThemeProvider } from "@/components/Theme-Provider";
 import { Toaster } from "@/components/ui/sonner";
 import { PropsWithChildren } from "react";
-import { useQuery, useMutation, useQueryClient, QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const queryClient = new QueryClient()
+// Créez une seule instance de QueryClient à utiliser dans l'application
+const queryClient = new QueryClient();
 
-export type ProvidersProps = PropsWithChildren; 
+export type ProvidersProps = PropsWithChildren;
 
-export const Providers = (props: ProvidersProps) => {
-return (
-    <ThemeProvider
+export const Providers = ({ children }: ProvidersProps) => {
+    return (
+        <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
-          >
-            <QueryClientProvider client={queryClient}/>
-            {props.children}
-          <Toaster />
-          </ThemeProvider>
-);
+        >
+            <QueryClientProvider client={queryClient}>
+                {children}
+                <Toaster />
+            </QueryClientProvider>
+        </ThemeProvider>
+    );
 };
