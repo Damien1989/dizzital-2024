@@ -72,42 +72,34 @@ export const ProductForm = (props: ProductFormProps) => {
                         )}
                     />
                     <FormField
-                        control={form.control}
-                        name="backgroundColor"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Background Color</FormLabel>
-                                <FormControl>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <SelectTrigger>
-                                            <SelectValue></SelectValue>
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {GRADIENTS_CLASSES.map((gradient) => (
-                                                <SelectItem
-                                                    value={gradient}
-                                                    key={gradient}
-                                                    className={gradient}>
-                                                    <div
-                                                        className={cn(
-                                                            gradient,
-                                                            "block w-80 h-8 rounded-md flex-1"
-                                                        )}
-                                                    >
-                                                        TEST
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormDescription>
-                                    The review page background color
-                                </FormDescription>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+    control={form.control}
+    name="backgroundColor"
+    render={({ field }) => (
+        <FormItem>
+            <FormLabel>Background Color</FormLabel>
+            <FormDescription>
+                The review page background color
+            </FormDescription>
+            <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={field.value || "Select a color"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {GRADIENTS_CLASSES.map((gradient) => (
+                            <SelectItem value={gradient} key={gradient} className="flex">
+                                <div className={cn(gradient, "block w-80 h-8 rounded-md flex-1")}>
+                                    TEST
+                                </div>
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </FormControl>
+            <FormMessage />
+        </FormItem>
+    )}
+/>
                     <Button>
                         {isCreate ? "Create Product" : "Save Product"}
                     </Button>
