@@ -30,12 +30,13 @@ export const ProductForm = (props: ProductFormProps) => {
     const mutation = useMutation({
         mutationFn: async (values: ProductType) => {
             try {
-                const data = await createProductAction(values);  // Utiliser createProductAction avec des valeurs valides
-                if (!data) throw new Error("Product creation failed");  // Vérifier que la réponse est valide
+                const context = { user: { id: "some-user-id" } }; 
+                const data = await createProductAction(values, context);  
+                if (!data) throw new Error("Product creation failed");  
                 toast.success("Product created");
-                router.push(`/products/${data.id}`);  // Rediriger vers le produit créé
+                router.push(`/products/${data.id}`); 
             } catch (error) {
-                toast.error(error instanceof Error ? error.message : "Error creating product");  // Gérer les erreurs
+                toast.error(error instanceof Error ? error.message : "Error creating product");  
             }
         },
     });
