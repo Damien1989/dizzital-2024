@@ -30,13 +30,23 @@ export const ProductForm = (props: ProductFormProps) => {
     const mutation = useMutation({
         mutationFn: async (values: ProductType) => {
             try {
-                const context = { user: { id: "some-user-id" } }; 
-                const data = await createProductAction(values, context);  
-                if (!data) throw new Error("Product creation failed");  
+                const response = await fetch("/api/products", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(values),
+                });
+    
+                if (!response.ok) {
+                    throw new Error("Failed to create product");
+                }
+    
+                const data = await response.json();
                 toast.success("Product created");
-                router.push(`/products/${data.id}`); 
+                router.push(`/products/${data.id}`);
             } catch (error) {
-                toast.error(error instanceof Error ? error.message : "Error creating product");  
+                toast.error(error instanceof Error ? error.message : "Error creating product");
             }
         },
     });

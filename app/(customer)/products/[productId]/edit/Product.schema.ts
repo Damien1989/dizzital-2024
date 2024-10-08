@@ -2,6 +2,11 @@ import { z } from "zod";
 
 export const ProductSchema = z.object({
     name: z.string(),
+    slug: z
+    .string()
+    .regex(/^[a-zA-Z0-9_]*$/)
+    .min(10)
+    .max(20),
     noteText: z.string().optional(),
     informationText: z.string().optional(),
     reviewText: z.string().optional(),

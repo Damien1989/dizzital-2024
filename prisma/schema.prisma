@@ -78,6 +78,7 @@ model VerificationToken {
 
 model Product {
   id                String   @id @default(cuid())
+  slug              String @unique
   name              String   
   noteText          String?
   informationText   String?
