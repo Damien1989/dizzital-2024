@@ -1,4 +1,4 @@
-import { baseAuth } from "@/auth/auth"
+import { baseAuth } from "@/auth/auth"; 
 import { SignInButton } from "./SignInButton"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar"

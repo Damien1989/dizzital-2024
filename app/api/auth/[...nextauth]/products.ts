@@ -1,41 +1,32 @@
+
 import { NextApiRequest, NextApiResponse } from 'next';
+import { actionClient } from '@/safe-action';
+import { ProductSchema } from '../../../(customer)/products/[productId]/edit/Product.schema';
 import { prisma } from '@/prisma';
-import getServerSession from 'next-auth'; 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  
-  if (req.method === 'POST') {
-    try {
-      const session = await getServerSession(req);
-      if (!session) {
-        return res.status(401).json({ error: "Not authenticated" });
-      }
+interface MetadataType {
+  actionName: string;
+}
 
-      const product = await prisma.product.create({
-        data: {
-          ...req.body,  
-          userId: session.user.id,  
-        },
-      });
+export const createProductAction = userAction
+  .schema(ProductSchema)
+  .action(async ({ parsedInput, ctx: { user } }) => {
+    const slugExists = await prisma.product.count({
+      where: {
+        slug: parsedInput.slug,
+      },
+    });
 
-      res.status(200).json(product);
-    } catch (error) {
-      console.error(error);
-      
-      res.status(500).json({ error: "Failed to create product", details: (error as Error).message });
-    }
-  
-  } else if (req.method === 'GET') {
-    try {
-      const products = await prisma.product.findMany();
-      res.status(200).json(products);
-    } catch (error) {
-      console.error(error);
-      
-      res.status(500).json({ error: "Failed to fetch products", details: (error as Error).message });
+    if (slugExists) {
+      throw new ActionError("Slug already exists");
     }
 
-  } else {
-    res.setHeader('Allow', ['GET', 'POST']); 
-    res.status(405).json({ error: "Method not allowed" });
+    const product = await prisma.product.create({
+      data: {
+        ...parsedInput,
+        userId: user.id,
+      },
+    });
+    return product;
   }
+  );
