@@ -4,7 +4,6 @@ import { env } from "@/env";
 import { prisma } from "@/prisma";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
-
 export const authOptions = {
   adapter: PrismaAdapter(prisma),
   theme: {

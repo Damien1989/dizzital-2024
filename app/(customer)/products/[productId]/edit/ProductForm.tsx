@@ -8,9 +8,9 @@ import { GRADIENTS_CLASSES, ProductSchema, ProductType } from "./Product.schema"
 import { useZodForm } from "@/components/ui/form";
 import { Select, SelectTrigger, SelectValue, SelectContent } from "@radix-ui/react-select";
 import { SelectItem } from "@/components/ui/select";
-import { createProductAction } from "./product.action";
 import { cn } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
+import { createProductAction } from "./product.action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 
@@ -29,13 +29,15 @@ export const ProductForm = (props: ProductFormProps) => {
 
     const mutation = useMutation({
         mutationFn: async (values: ProductType) => {
-            const { data, serverError } = await createProductAction(values);
-            if (serverError || !data) {
-                toast.error(serverError);
-                return;
+            try {
+                const context = { user: { id: "some-user-id" } }; 
+                const data = await createProductAction(values, context);  
+                if (!data) throw new Error("Product creation failed");  
+                toast.success("Product created");
+                router.push(`/products/${data.id}`); 
+            } catch (error) {
+                toast.error(error instanceof Error ? error.message : "Error creating product");  
             }
-            toast.success("Product created");
-            router.push(`/products/${data.id}`);
         },
     });
 
@@ -71,34 +73,34 @@ export const ProductForm = (props: ProductFormProps) => {
                         )}
                     />
                     <FormField
-                        control={form.control}
-                        name="backgroundColor"
-                        render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Background Color</FormLabel>
-                                <FormDescription>
-                                    The review page background color
-                                </FormDescription>
-                                <FormControl>
-                                    <Select value={field.value} onValueChange={field.onChange}>
-                                        <SelectTrigger>
-                                            <SelectValue placeholder={field.value || "Select a color"} />
-                                        </SelectTrigger>
-                                        <SelectContent>
-                                            {GRADIENTS_CLASSES.map((gradient) => (
-                                                <SelectItem value={gradient} key={gradient} className="flex">
-                                                    <div className={cn(gradient, "block w-80 h-8 rounded-md flex-1")}>
-                                                        TEST
-                                                    </div>
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
+    control={form.control}
+    name="backgroundColor"
+    render={({ field }) => (
+        <FormItem>
+            <FormLabel>Background Color</FormLabel>
+            <FormDescription>
+                The review page background color
+            </FormDescription>
+            <FormControl>
+                <Select value={field.value} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={field.value || "Select a color"} />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {GRADIENTS_CLASSES.map((gradient) => (
+                            <SelectItem value={gradient} key={gradient} className="flex">
+                                <div className={cn(gradient, "block w-80 h-8 rounded-md flex-1")}>
+                                    TEST
+                                </div>
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </FormControl>
+            <FormMessage />
+        </FormItem>
+    )}
+/>
                     <Button>
                         {isCreate ? "Create Product" : "Save Product"}
                     </Button>

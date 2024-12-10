@@ -1,32 +1,15 @@
+import { ProductSchema } from "./Product.schema";
+import { prisma } from "@/prisma";
 
-import { NextApiRequest, NextApiResponse } from 'next';
-import { actionClient } from '@/safe-action';
-import { ProductSchema } from '../../../(customer)/products/[productId]/edit/Product.schema';
-import { prisma } from '@/prisma';
-
-interface MetadataType {
-  actionName: string;
-}
-
-export const createProductAction = userAction
-  .schema(ProductSchema)
-  .action(async ({ parsedInput, ctx: { user } }) => {
-    const slugExists = await prisma.product.count({
-      where: {
-        slug: parsedInput.slug,
-      },
-    });
-
-    if (slugExists) {
-      throw new ActionError("Slug already exists");
-    }
-
+export const createProductAction = async (input: typeof ProductSchema['_type'], context: { user: { id: string } }) => {
     const product = await prisma.product.create({
-      data: {
-        ...parsedInput,
-        userId: user.id,
-      },
+        data: {
+            ...input,
+            userId: context.user.id,
+        },
     });
     return product;
-  }
-  );
+};
+
+export const editProductAction = async () => {
+};

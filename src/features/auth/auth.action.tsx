@@ -1,7 +1,6 @@
 "use server"
 
-import { signOut } from "@/auth/auth"
-import { signIn } from "next-auth/react"
+import { signIn, signOut } from "next-auth/react";
 
 export const signOutAction = async () => {
      await signOut();

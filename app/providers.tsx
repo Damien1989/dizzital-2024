@@ -15,10 +15,8 @@ return (
         attribute="class"
         defaultTheme="system"
         enableSystem
-        disableTransitionOnChange
-        >
+        disableTransitionOnChange>
     <QueryClientProvider client={queryClient}/>
-
     <Toaster />
     {props.children}
     </ThemeProvider>
